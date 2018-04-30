@@ -14,10 +14,13 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include "customer.h"
+#include "customerUtilities.h"
+
 using namespace std;
 
 extern vector<vector<string>> getCustomerData(string, int);
-extern string generateID();
+extern string generateID(vector<Customer *>&);
 
 #endif /* DATA_H */
 

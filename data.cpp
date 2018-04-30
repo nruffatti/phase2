@@ -47,20 +47,23 @@ vector<vector<string>> getCustomerData(string name, int i)
     return data;
 }
 
-string generateID()
+string generateID(vector<Customer *>& customerList)
 {
     bool unique = false;
-//    while(!unique) {
-//        srand(time(0));
-//        int x = rand() % 1000000;
-//        if(searchID(customerList, x) .size() > 0)
-//        {
-//            unique = true;
-//        }
-//    }
+    int x;
     stringstream ss;
-    ss << x;
-    string r = ss.str();
+    string r;
+    while(!unique) {
+        srand(time(0));
+        x = rand() % 1000000;
+        ss << x;
+        r = ss.str();
+        if(searchID(customerList, r).size() < 1)
+        {
+            unique = true;
+        }
+    }
+
     string ID = "";
     int size = r.length();
     
