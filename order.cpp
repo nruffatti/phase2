@@ -2,7 +2,7 @@
 
 Order::Order() {
 	this->orderID = "0";
-	this->date = "nodate";
+	this->date = "no_date";
 	this->quantity = "0";
 	this->amountPaid = "0";
 }
@@ -28,4 +28,14 @@ string Order::getQuantity() {
 
 string Order::getAmountPaid() {
 	return amountPaid;
+}
+
+string Order::to_string() {
+	string line;
+	line += "Order ID: " + orderID;
+	line += "\nDate Placed: " + date;
+	line += "\nQuantity Ordered: " + quantity;
+	line += "\nAmount Paid: " + amountPaid;
+
+	return line;
 }
