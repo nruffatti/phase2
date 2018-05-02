@@ -117,6 +117,7 @@ int main(int argc, char** argv) {
 
     // to store the user input
     string ID, fname, lname, street, city, state, zip;
+    string orderID, transactionID, date, quantity, amountPaid;
     
     while (!exit) {
 
@@ -132,7 +133,7 @@ int main(int argc, char** argv) {
         /* Switch is used to determine what option the user chooses
          * case 1 - user is prompted to add new customer
          * case 2 - user is prompted to look up a customer by last name
-         * case 3 - user is prompted to look up a customer by last name
+         * case 3 - user is prompted to look up a customer by ID
          * case 4 - user prompted for customer sale
          * case 5 - user prompted to add customer to rainbow tribble queue
          * case 6 - exit
