@@ -36,11 +36,18 @@ vector<int> searchID(vector<Customer *>& searchList, string ID) {
 void updateRecordFile(vector<Customer *>& list, int size) {
     ofstream outfile;
 
-    outfile.open("customer___data.txt", ios_base::app);
+    outfile.open("customers.txt", ios_base::app);
     
     // append only newly added records
-    for (int i = size + 1; i < list.size(); i++) {
-        outfile << list[i]->getFname() << " " << list[i]->getLname() << " " << list[i]->getAddress() << endl;
+    for (int i = size; i < list.size(); i++) {
+        outfile << list[i]->getID() << ";"
+                << list[i]->getFname() << ";"
+                << list[i]->getLname() << ";"
+                << list[i]->getStreet() << ";"
+                << list[i]->getCity() << ";" 
+                << list[i]->getState() << ";" 
+                << list[i]->getZip() << endl;
     }
+    outfile.close();
 }
 
