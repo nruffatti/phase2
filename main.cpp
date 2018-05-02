@@ -11,6 +11,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <queue>
 
 #include "part1.h"
 #include "customer.h"
@@ -23,15 +24,17 @@ int main(int argc, char** argv) {
     // variables that will be used in multiple places or multiple times
     Customer * newCustomer;
     vector<Customer *> customerList;
+    queue<string> rainbowQueue;
+    
     vector<int> foundList; // to store the index of found records with duplicate name
     int choice;
     int size; // to keep track of # of existing records
     bool exit = false;
 
     // read customers.txt and parse the data
-    vector<vector<string>> data;
+    vector<vector<string>> data, rainbow;
     data = getCustomerData("customers", 7);
-    
+    rainbow = getCustomerData("rainbowList", 1);
     
 //    string s;
 //    cout << "Parse Data? (y/n)" << endl;
@@ -69,6 +72,12 @@ int main(int argc, char** argv) {
         newCustomer = new Customer(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6]);
         customerList.push_back(newCustomer);
     }
+    
+    //push rainbow data to queue
+    for (int i = 0; i < rainbow.size(); i++) {
+        rainbowQueue.push(rainbow[i][0]);
+    }
+    
 
     size = customerList.size(); // to keep the track of # of existing records
     // vector is used to store the options that the user can choose
@@ -81,17 +90,18 @@ int main(int argc, char** argv) {
     options.push_back("(6) Exit");
 
 
-
-    cout << "What would you like to do?\n";
-    // for loop iterates through the available options that the user can choose
-    for (int i = 0; i < (int) options.size(); i++) {
-        cout << options.at(i) << endl;
-    }
-
+   
     // to store the user input
     string ID, fname, lname, street, city, state, zip;
 
     while (!exit) {
+
+        cout << "\n\nWhat would you like to do?\n";
+        // for loop iterates through the available options that the user can choose
+        for (int i = 0; i < (int) options.size(); i++) {
+            cout << options.at(i) << endl;
+        }
+        
         cout << "\nEnter an above number to continue: ";
         cin >> choice;
 
@@ -176,12 +186,44 @@ int main(int argc, char** argv) {
                     cout << "No Match was found. Try again!" << endl;
                 break;
             case 4:
+                //customer sale
                 break;
             case 5:
+                cout << "(1) Add Customer to Queue\n";
+                cout << "(2) Sell to Customer on Queue\n";
+                
+                cin >> choice;
+                
+                switch(choice) {
+                    case 1:
+                        cout << "Enter customer ID to add to queue: ";
+                        cin >> ID;
+                        //check validity of ID
+                        rainbowQueue.push(ID);
+                        break;
+                    case 2:
+                        //copy - Customer Sale menu
+                        
+                        //temporary output:
+                        cout << "Selling to customer " << rainbowQueue.front() << endl;
+                        if(rainbowQueue.empty()) {
+                            cout << "Queue is Empty" << endl;
+                            break;
+                        }
+                        rainbowQueue.pop();
+                        break;
+                    default:
+                        cout << "Not valid input. Try again!" << endl;
+                        
+                        //fixed infinite loop error for invalid inputs
+                        cin.clear();
+                        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        break;
+                }
                 break;
             case 6:
-                cout << "OG size: " << size << "\nNew Size: " << customerList.size();
                 updateRecordFile(customerList, size);
+                updateQueue(rainbowQueue);
                 exit = true;
                 break;
             default:
