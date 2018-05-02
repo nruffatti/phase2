@@ -24,10 +24,20 @@ vector<vector<string>> getCustomerData(string name, int i)
     string line;
     vector<string> row;
     char delimiter = ';';
+    if(i == 1)
+    {
+        delimiter = '\n';
+    }
     ifstream file(name + ".txt");
     int j = 0;
     if(file.is_open()) {
         while (getline(file, line, delimiter)) {
+            if (i == 1) {
+                row.push_back(line);
+                data.push_back(row);
+                row.clear();
+                continue;
+            }
             if (j == i - 2) {
                 delimiter = '\n';
             }
