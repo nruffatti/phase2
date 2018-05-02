@@ -5,6 +5,8 @@
  * Created on April 22, 2018, 2:24 PM
  */
 
+#include <queue>
+
 #include "customerUtilities.h"
 
 using namespace std;
@@ -51,3 +53,15 @@ void updateRecordFile(vector<Customer *>& list, int size) {
     outfile.close();
 }
 
+void updateQueue(queue<string> list) {
+    ofstream outfile;
+
+    outfile.open("rainbowList.txt", ios_base::trunc);
+    
+    // rewrite entire queue to file
+    while (!list.empty()) {
+        outfile << list.front() << endl;
+        list.pop();
+    }
+    outfile.close();
+}
