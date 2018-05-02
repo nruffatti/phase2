@@ -171,12 +171,16 @@ int main(int argc, char** argv) {
                             << "\nID: \t" << customerList[foundList[0]]->getID()
                             << "\nAdr: \t" << customerList[foundList[0]]->getAddress() << endl;
                     //print customer orders
-                } else
+                }
+				else {
                     cout << "No match was found. Try again!" << endl;
+				}
+
                 break;
             case 3:
                 cout << "\nEnter ID number to search: ";
                 cin >> ID;
+
                 foundList = searchID(customerList, ID);
                 if (foundList.size() == 1) {
                     cout << "\nName: \t" << customerList[foundList[0]]->getFname() << " "
@@ -184,8 +188,11 @@ int main(int argc, char** argv) {
                             << "\nID: \t" << customerList[foundList[0]]->getID()
                             << "\nAdr: \t" << customerList[foundList[0]]->getAddress() << endl;
                     //print customer orders
-                } else
+                }
+				else {
                     cout << "No Match was found. Try again!" << endl;
+				}
+
                 break;
             case 4:
                 //customer sale
@@ -201,7 +208,9 @@ int main(int argc, char** argv) {
                     case 1:
                         cout << "Enter customer ID to add to queue: ";
                         cin >> ID;
+
                         //check validity of ID
+
                         rainbowQueue.push(ID);
                         break;
                     case 2:
@@ -212,6 +221,7 @@ int main(int argc, char** argv) {
                             cout << "\nQueue is Empty" << endl;
                             break;
                         }
+
                         cout << "Selling to customer " << rainbowQueue.front() << endl;
 
                         rainbowQueue.pop();
@@ -222,12 +232,14 @@ int main(int argc, char** argv) {
                         //fixed infinite loop error for invalid inputs
                         cin.clear();
                         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
                         break;
                 }
                 break;
             case 6:
                 updateRecordFile(customerList, size);
                 updateQueue(rainbowQueue);
+
                 exit = true;
                 break;
             default:
@@ -236,6 +248,7 @@ int main(int argc, char** argv) {
                 //fixed infinite loop error for invalid inputs
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				
                 break;
         }
     }
