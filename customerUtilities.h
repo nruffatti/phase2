@@ -1,6 +1,6 @@
 /* 
  * File:   customerUtility.h
- * Author: Hai Le
+ * Author: Hai Le, Nathan Ruffatti
  *
  * Created on April 22, 2018, 2:24 PM
  */
@@ -19,6 +19,8 @@ using namespace std;
 vector<int> searchLastName(vector<Customer *>&, string);
 vector<int> searchID(vector<Customer *>&, string);
 void updateRecordFile(vector<Customer *>&, int);
+void updateTransactions(vector<Transaction *>&, int);
+void updateOrders(vector<Order *>&, int);
 void updateQueue(queue<string>);
 
 
