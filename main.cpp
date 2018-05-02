@@ -25,59 +25,59 @@ int main(int argc, char** argv) {
     Customer * newCustomer;
     vector<Customer *> customerList;
     queue<string> rainbowQueue;
-    
+
     vector<int> foundList; // to store the index of found records with duplicate name
     int choice;
     int size; // to keep track of # of existing records
     bool exit = false;
 
     // read customers.txt and parse the data
-    vector<vector<string>> data, rainbow;
+    vector<vector < string>> data, rainbow;
     data = getCustomerData("customers", 7);
     rainbow = getCustomerData("rainbowList", 1);
-    
-//    string s;
-//    cout << "Parse Data? (y/n)" << endl;
-//    cin >> s;
-//    
-//    //user edits bad data
-//    if (s.compare("y") == 0) {
-//        data = getData(data);
-//        data = rm_spaces(data, 4);
-//        data = rm_spaces(data, 3);
-//        data = rm_nonNum(data, 5);
-//        cout << "Parsing through data..." << endl;
-//        bad_data(data);
-//        cout << "Possible bad data saved to badData.csv file" << endl;
-//        cout << "Fix the bad data now and resave data. Press any key, then enter to continue" << endl;
-//        cout << ("note: type 'delete' into an element to delete that entire row.") << endl;
-//        cin >> s;
-//        data = fix_bad(data);
-//        save(data, "fixed_data");
-//    } else { //uses last saved edited badData file
-//        
-//        //data = getData(data);
-//        //data = rm_spaces(data, 4);
-//        //data = rm_spaces(data, 3);
-//        //data = rm_nonNum(data, 5);
-//        //data = fix_bad(data);
-//        //save(data, "fixed_data");
-//        
-//        data = getCustomerData("customers",7);
-//    }
-//    cout << "\n\n\n\n\n";
+
+    //    string s;
+    //    cout << "Parse Data? (y/n)" << endl;
+    //    cin >> s;
+    //    
+    //    //user edits bad data
+    //    if (s.compare("y") == 0) {
+    //        data = getData(data);
+    //        data = rm_spaces(data, 4);
+    //        data = rm_spaces(data, 3);
+    //        data = rm_nonNum(data, 5);
+    //        cout << "Parsing through data..." << endl;
+    //        bad_data(data);
+    //        cout << "Possible bad data saved to badData.csv file" << endl;
+    //        cout << "Fix the bad data now and resave data. Press any key, then enter to continue" << endl;
+    //        cout << ("note: type 'delete' into an element to delete that entire row.") << endl;
+    //        cin >> s;
+    //        data = fix_bad(data);
+    //        save(data, "fixed_data");
+    //    } else { //uses last saved edited badData file
+    //        
+    //        //data = getData(data);
+    //        //data = rm_spaces(data, 4);
+    //        //data = rm_spaces(data, 3);
+    //        //data = rm_nonNum(data, 5);
+    //        //data = fix_bad(data);
+    //        //save(data, "fixed_data");
+    //        
+    //        data = getCustomerData("customers",7);
+    //    }
+    //    cout << "\n\n\n\n\n";
 
     // translate the data into Customer objects and push them into the customerList vector
     for (int i = 0; i < data.size(); i++) {
         newCustomer = new Customer(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6]);
         customerList.push_back(newCustomer);
     }
-    
+
     //push rainbow data to queue
     for (int i = 0; i < rainbow.size(); i++) {
         rainbowQueue.push(rainbow[i][0]);
     }
-    
+
 
     size = customerList.size(); // to keep the track of # of existing records
     // vector is used to store the options that the user can choose
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
     options.push_back("(6) Exit");
 
 
-   
+
     // to store the user input
     string ID, fname, lname, street, city, state, zip;
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
         for (int i = 0; i < (int) options.size(); i++) {
             cout << options.at(i) << endl;
         }
-        
+
         cout << "\nEnter an above number to continue: ";
         cin >> choice;
 
@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
                 cout << "\nNew Customer\n============" << endl;
 
                 ID = generateID(customerList);
-                
+
                 cout << "Enter first name: ";
                 cin >> fname;
 
@@ -176,7 +176,7 @@ int main(int argc, char** argv) {
                 cout << "\nEnter ID number to search: ";
                 cin >> ID;
                 foundList = searchID(customerList, ID);
-                if(foundList.size() == 1) {
+                if (foundList.size() == 1) {
                     cout << "\nName: \t" << customerList[foundList[0]]->getFname() << " "
                             << customerList[foundList[0]]->getLname()
                             << "\nID: \t" << customerList[foundList[0]]->getID()
@@ -189,12 +189,13 @@ int main(int argc, char** argv) {
                 //customer sale
                 break;
             case 5:
+                cout << "\nWhat would you like to do?\n";
                 cout << "(1) Add Customer to Queue\n";
                 cout << "(2) Sell to Customer on Queue\n";
-                
+                cout << "\nEnter an above number to continue: ";
                 cin >> choice;
-                
-                switch(choice) {
+
+                switch (choice) {
                     case 1:
                         cout << "Enter customer ID to add to queue: ";
                         cin >> ID;
@@ -203,18 +204,19 @@ int main(int argc, char** argv) {
                         break;
                     case 2:
                         //copy - Customer Sale menu
-                        
+
                         //temporary output:
-                        cout << "Selling to customer " << rainbowQueue.front() << endl;
-                        if(rainbowQueue.empty()) {
-                            cout << "Queue is Empty" << endl;
+                        if (rainbowQueue.empty()) {
+                            cout << "\nQueue is Empty" << endl;
                             break;
                         }
+                        cout << "Selling to customer " << rainbowQueue.front() << endl;
+
                         rainbowQueue.pop();
                         break;
                     default:
                         cout << "Not valid input. Try again!" << endl;
-                        
+
                         //fixed infinite loop error for invalid inputs
                         cin.clear();
                         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -228,7 +230,7 @@ int main(int argc, char** argv) {
                 break;
             default:
                 cout << "Not valid input. Try again!" << endl;
-                
+
                 //fixed infinite loop error for invalid inputs
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
