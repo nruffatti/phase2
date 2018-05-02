@@ -1,31 +1,31 @@
 #include "order.h"
 
-Order() {
+Order::Order() {
 	this->orderID = "0";
 	this->date = "nodate";
 	this->quantity = "0";
 	this->amountPaid = "0";
 }
 
-Order(string orderID, string date, string quantity, string amountPaid) {
+Order::Order(string orderID, string date, string quantity, string amountPaid) {
 	this->orderID = orderID;
 	this->date = date;
 	this->quantity = quantity;
 	this->amountPaid = amountPaid;
 }
 
-string getOrderID() {
+string Order::getOrderID() {
 	return orderID;
 }
 
-string getDate() {
+string Order::getDate() {
 	return date;
 }
 
-string getQuantity() {
+string Order::getQuantity() {
 	return quantity;
 }
 
-string getAmountPaid() {
+string Order::getAmountPaid() {
 	return amountPaid;
 }
