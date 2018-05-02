@@ -1,6 +1,10 @@
 #ifndef ORDER_H
 #define ORDER_H
 
+#include<string>
+
+using namespace std;
+
 class Order {
 	public:
 		Order();
@@ -15,6 +19,6 @@ class Order {
 
 	private:
 		string orderID, date, quantity, amountPaid;
-}
+};
 
 #endif
