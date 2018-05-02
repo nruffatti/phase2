@@ -13,10 +13,12 @@
 #include <vector>
 #include <queue>
 
-#include "part1.h"
 #include "customer.h"
 #include "customerUtilities.h"
 #include "data.h"
+#include "order.h"
+#include "part1.h"
+#include "transaction.h"
 
 using namespace std;
 
@@ -39,7 +41,7 @@ int main(int argc, char** argv) {
     //    string s;
     //    cout << "Parse Data? (y/n)" << endl;
     //    cin >> s;
-    //    
+    //
     //    //user edits bad data
     //    if (s.compare("y") == 0) {
     //        data = getData(data);
@@ -55,14 +57,14 @@ int main(int argc, char** argv) {
     //        data = fix_bad(data);
     //        save(data, "fixed_data");
     //    } else { //uses last saved edited badData file
-    //        
+    //
     //        //data = getData(data);
     //        //data = rm_spaces(data, 4);
     //        //data = rm_spaces(data, 3);
     //        //data = rm_nonNum(data, 5);
     //        //data = fix_bad(data);
     //        //save(data, "fixed_data");
-    //        
+    //
     //        data = getCustomerData("customers",7);
     //    }
     //    cout << "\n\n\n\n\n";
@@ -93,6 +95,7 @@ int main(int argc, char** argv) {
 
     // to store the user input
     string ID, fname, lname, street, city, state, zip;
+	string orderID, transactionID, date, quantity, amountPaid;
 
     while (!exit) {
 
@@ -108,12 +111,11 @@ int main(int argc, char** argv) {
         /* Switch is used to determine what option the user chooses
          * case 1 - user is prompted to add new customer
          * case 2 - user is prompted to look up a customer by last name
-         * case 3 - user is prompted to look up a customer by last name
+         * case 3 - user is prompted to look up a customer by ID
          * case 4 - user prompted for customer sale
          * case 5 - user prompted to add customer to rainbow tribble queue
          * case 6 - exit
          */
-
         switch (choice) {
             case 1:
                 cout << "\nNew Customer\n============" << endl;
