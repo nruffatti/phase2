@@ -1,20 +1,20 @@
 #include "order.h"
 
 Order::Order() {
-	this->orderID = "0";
-	this->date = "no_date";
-	this->quantity = "0";
-	this->amountPaid = "0";
+	this->orderID = 0;
+	this->date = "";
+	this->quantity = 0;
+	this->amountPaid = 0;
 }
 
-Order::Order(string orderID, string date, string quantity, string amountPaid) {
+Order::Order(int orderID, string date, int quantity, int amountPaid) {
 	this->orderID = orderID;
 	this->date = date;
 	this->quantity = quantity;
 	this->amountPaid = amountPaid;
 }
 
-string Order::getOrderID() {
+int Order::getOrderID() {
 	return orderID;
 }
 
@@ -22,11 +22,11 @@ string Order::getDate() {
 	return date;
 }
 
-string Order::getQuantity() {
+int Order::getQuantity() {
 	return quantity;
 }
 
-string Order::getAmountPaid() {
+int Order::getAmountPaid() {
 	return amountPaid;
 }
 

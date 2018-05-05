@@ -8,13 +8,13 @@ using namespace std;
 class Transaction {
 	public:
 		Transaction();
-		Transaction(string orderID, string customerID);
-		
-		string getOrderID();
-		string getCustomerID();
-	
+		Transaction(int orderID, int customerID);
+
+		int getOrderID();
+		int getCustomerID();
+
 	private:
-		string orderID, customerID;
+		int orderID, customerID;
 };
 
 #endif
