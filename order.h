@@ -8,17 +8,18 @@ using namespace std;
 class Order {
 	public:
 		Order();
-		Order(string orderID, string date, string quantity, string amountPaid);
+		Order(int orderID, string date, int quantity, int amountPaid);
 
-		string getOrderID();
+		int getOrderID();
 		string getDate();
-		string getQuantity();
-		string getAmountPaid();
+		int getQuantity();
+		int getAmountPaid();
 
 		string to_string();
 
 	private:
-		string orderID, date, quantity, amountPaid;
+		string date;
+		int orderID, quantity, amountPaid;
 };
 
 #endif
