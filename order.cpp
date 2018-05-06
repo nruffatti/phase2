@@ -35,7 +35,7 @@ string Order::to_string() {
 	line += "Order ID: " + orderID;
 	line += "\nDate Placed: " + date;
 	line += "\nQuantity Ordered: " + quantity;
-	line += "\nAmount Paid: " + amountPaid;
+	line += "\nAmount Paid: " + (int)amountPaid;
 
 	return line;
 }
