@@ -292,7 +292,6 @@ int main(int argc, char** argv) {
 						break;
 
 					case 2: // Return to main menu
-						// Do nothing
 						break;
 
 					default: // Invalid input
