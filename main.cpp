@@ -96,25 +96,25 @@ int main(int argc, char** argv) {
     //    cout << "\n\n\n\n\n";
 
     // translate the data into Customer objects and push them into the customerList vector
-    for (int i = 0; i < data.size(); i++) {
+    for (int i = 0; (unsigned)i < data.size(); i++) {
         newCustomer = new Customer(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6]);
         customerList.push_back(newCustomer);
     }
 
     // translate the data into order objects and push into orderList vector
-    for (int i = 0; i < order.size(); i++) {
+    for (int i = 0; (unsigned)i < order.size(); i++) {
         newOrder = new Order(s_to_i(order[i][0]), order[i][1], s_to_i(order[i][2]), s_to_i(order[i][3]));
         orderList.push_back(newOrder);
     }
 
     // translate the data into transaction objects and push into transactionList vector
-    for (int i = 0; i < transaction.size(); i++) {
+    for (int i = 0; (unsigned)i < transaction.size(); i++) {
         newTransaction = new Transaction(s_to_i(transaction[i][0]), s_to_i(transaction[i][1]));
         transactionList.push_back(newTransaction);
     }
 
     //push rainbow data to queue
-    for (int i = 0; i < rainbow.size(); i++) {
+    for (int i = 0; (unsigned)i < rainbow.size(); i++) {
         rainbowQueue.push(rainbow[i][0]);
     }
     // to keep the track of # of existing records
@@ -143,7 +143,9 @@ int main(int argc, char** argv) {
 
     // to store the user input
     string ID, fname, lname, street, city, state, zip;
-    string orderID, transactionID, date, quantity, amountPaid, date;
+    string orderID, transactionID, date, quantity;
+	int quant;
+	float amountPaid;
 
     while (!exit) {
 
@@ -156,7 +158,8 @@ int main(int argc, char** argv) {
         cout << "\nEnter an above number to continue: ";
         cin >> choice;
 
-        /* Switch is used to determine what option the user chooses
+        /**
+		 * Switch is used to determine what option the user chooses
          * case 1 - user is prompted to add new customer
          * case 2 - user is prompted to look up a customer by last name
          * case 3 - user is prompted to look up a customer by ID
@@ -164,40 +167,50 @@ int main(int argc, char** argv) {
          * case 5 - user prompted to add customer to rainbow tribble queue
          * case 6 - exit
          */
-
         switch (choice) {
             case 1: // User is prompted to add new customer @Author Brandon Youngquist
                 cout << "\nNew Customer\n============" << endl;
-				// cout << "\nWhat would you like to do?";
-				// cout << "\n(1) Sell to Customer";
-				// cout << "\n(2) Return to Main Menu";
-				// cout << "\n\nEnter an above number to continue: ";
+				cout << "\nWhat would you like to do?";
+				cout << "\n(1) Enter a new customer";
+				cout << "\n(2) Return to Main Menu";
+				cout << "\n\nEnter an above number to continue: ";
 
 				cin >> choice;
 
-                ID = generateID(customerList);
+				switch(choice) {
+					case 1:
+						ID = generateID(customerList);
 
-                cout << "Enter first name: ";
-                cin >> fname;
+						cout << "Enter first name: ";
+						cin >> fname;
 
-                cout << "Enter last name: ";
-                cin >> lname;
+						cout << "Enter last name: ";
+						cin >> lname;
 
-                cout << "Enter street address: ";
-                cin.ignore();
-                getline(cin, street);
+						cout << "Enter street address: ";
+						cin.ignore();
+						getline(cin, street);
 
-                cout << "Enter city name: ";
-                cin >> city;
+						cout << "Enter city name: ";
+						cin >> city;
 
-                cout << "Enter state name: ";
-                cin >> state;
+						cout << "Enter state name: ";
+						cin >> state;
 
-                cout << "Enter zipcode: ";
-                cin >> zip;
+						cout << "Enter zipcode: ";
+						cin >> zip;
 
-                newCustomer = new Customer(ID, fname, lname, street, city, state, zip);
-                customerList.push_back(newCustomer);
+						newCustomer = new Customer(ID, fname, lname, street, city, state, zip);
+						customerList.push_back(newCustomer);
+						break;
+
+					case 2:
+						break;
+
+					default:
+						printInvalid();
+						break;
+				}
                 break;
 
             case 2: // User is prompted to look up a customer by last name
@@ -207,7 +220,7 @@ int main(int argc, char** argv) {
 
                 //multiple last names
                 if (foundList.size() > 1) {
-                    for (int i = 0; i < foundList.size(); i++) {
+                    for (int i = 0; (unsigned)i < foundList.size(); i++) {
                         cout << (i + 1) << ". " << customerList[foundList[i]]->getFname() << " " << customerList[foundList[i]]->getLname() << endl;
                     }
                     cout << "Enter a number to choose a record: " << endl;
@@ -266,17 +279,15 @@ int main(int argc, char** argv) {
 						}
 
 						orderID = orderList.size() + 1;
+						//TODO get date/time and format it
+						quant = s_to_i(quantity);
+						amountPaid = prices.at(quant - 1);
 
-						// time_t rawtime;
-						//   struct tm * timeinfo;
-						//   char buffer [80];
-						//
-						//   time (&rawtime);
-						//   timeinfo = localtime (&rawtime);
-						//
-						//   strftime (buffer,80,"Now it's %I:%M%p.",timeinfo);
+						newTransaction = new Transaction(s_to_i(ID), quant);
+						transactionList.push_back(newTransaction);
 
-						newTransaction = new Transaction(s_to_i(ID), s_to_i(quantity));
+						newOrder = new Order(s_to_i(orderID), date, quant, amountPaid);
+						orderList.push_back(newOrder);
 
 						break;
 

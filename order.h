@@ -8,7 +8,7 @@ using namespace std;
 class Order {
 	public:
 		Order();
-		Order(int orderID, string date, int quantity, int amountPaid);
+		Order(int orderID, string date, int quantity, float amountPaid);
 
 		int getOrderID();
 		string getDate();
@@ -19,7 +19,8 @@ class Order {
 
 	private:
 		string date;
-		int orderID, quantity, amountPaid;
+		int orderID, quantity;
+		float amountPaid;
 };
 
 #endif

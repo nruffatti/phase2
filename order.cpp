@@ -7,7 +7,7 @@ Order::Order() {
 	this->amountPaid = 0;
 }
 
-Order::Order(int orderID, string date, int quantity, int amountPaid) {
+Order::Order(int orderID, string date, int quantity, float amountPaid) {
 	this->orderID = orderID;
 	this->date = date;
 	this->quantity = quantity;
