@@ -279,7 +279,18 @@ int main(int argc, char** argv) {
 						}
 
 						orderID = orderList.size() + 1;
-						//TODO get date/time and format it
+
+						// Code sourced from http://www.cplusplus.com/reference/ctime/strftime/
+						time_t rawtime;
+						struct tm * timeinfo;
+						char buffer [80];
+
+						time (&rawtime);
+						timeinfo = localtime (&rawtime);
+
+						date = strftime (buffer,80,"%d-%m-%y",timeinfo);
+						// End sourced code
+
 						quant = s_to_i(quantity);
 						amountPaid = prices.at(quant - 1);
 
