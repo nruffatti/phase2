@@ -18,19 +18,17 @@
 
 using namespace std;
 
-vector<vector<string>> getCustomerData(string name, int i)
-{
-    vector<vector<string>> data;
+vector<vector<string>> getCustomerData(string name, int i) {
+    vector<vector < string>> data;
     string line;
     vector<string> row;
     char delimiter = ';';
-    if(i == 1)
-    {
+    if (i == 1) {
         delimiter = '\n';
     }
     ifstream file(name + ".txt");
     int j = 0;
-    if(file.is_open()) {
+    if (file.is_open()) {
         while (getline(file, line, delimiter)) {
             if (i == 1) {
                 row.push_back(line);
@@ -57,31 +55,47 @@ vector<vector<string>> getCustomerData(string name, int i)
     return data;
 }
 
-string generateID(vector<Customer *>& customerList)
-{
+string generateID(vector<Customer *>& customerList) {
     bool unique = false;
     int x;
     stringstream ss;
     string r;
-    while(!unique) {
+    while (!unique) {
         srand(time(0));
         x = rand() % 1000000;
         ss << x;
         r = ss.str();
-        if(searchID(customerList, r).size() < 1)
-        {
+        if (searchID(customerList, r).size() < 1) {
             unique = true;
         }
     }
 
     string ID = "";
     int size = r.length();
-    
-    for(;size < 6; size++)
-    {
+
+    for (; size < 6; size++) {
         ID += "0";
     }
     ID += r;
     return ID;
+}
+
+string generateTransactionID(vector<Transaction *> list) {
+    string r;
+    stringstream ts;
     
+    int num = list.size();
+    num++;
+    ts << num;
+    r = ts.str();
+    
+    int size = r.length();
+    string ID = "";
+    
+    for (; size < 6; size++) {
+        ID += "0";
+    }
+    
+    ID += r;
+    return ID;
 }

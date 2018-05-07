@@ -1,21 +1,21 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
 
-#include<string>
+#include <string>
 
 using namespace std;
 
 class Transaction {
 	public:
 		Transaction();
-		Transaction(int orderID, string customerID);
 
-		int getOrderID();
+		Transaction(string customerID, string orderID);
+
+		string getOrderID();
 		string getCustomerID();
 
 	private:
-		int orderID;
-                string customerID;
+		string orderID, customerID;
 };
 
 #endif

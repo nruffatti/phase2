@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <time.h>
+
 #include "part1.h"
 #include "customer.h"
 #include "customerUtilities.h"
@@ -23,6 +24,7 @@
 #include "transaction.h"
 
 using namespace std;
+
 
 void printSaleConfirmation(string name, int qty, float total, string date) {
     cout << "\nSale Confirmation" << endl;
@@ -139,7 +141,8 @@ int main(int argc, char** argv) {
 
     // translate the data into transaction objects and push into transactionList vector
     for (int i = 0; (unsigned) i < transaction.size(); i++) {
-        newTransaction = new Transaction(s_to_i(transaction[i][1]), transaction[i][0]);
+
+        newTransaction = new Transaction(transaction[i][0], transaction[i][1]);
         transactionList.push_back(newTransaction);
     }
 
@@ -147,6 +150,7 @@ int main(int argc, char** argv) {
     for (int i = 0; (unsigned) i < rainbow.size(); i++) {
         rainbowList.push_back(rainbow[i][0]);
     }
+  
     // to keep the track of # of existing records
     tSize = transactionList.size();
     oSize = orderList.size();
@@ -173,8 +177,8 @@ int main(int argc, char** argv) {
 
     // to store the user input
     string ID, fname, lname, street, city, state, zip;
-    string transactionID, date, quantity;
-    int orderID, quant;
+    string orderID, transactionID, date, quantity;
+    int quant;
     float amountPaid;
 
     while (!exit) {
@@ -234,6 +238,7 @@ int main(int argc, char** argv) {
                         customerList.push_back(newCustomer);
 
                         cout << "\nAdded new customer " << fname << " " << lname << " with ID " << ID << endl;
+
                         break;
 
                     case 2:
@@ -318,6 +323,7 @@ int main(int argc, char** argv) {
                         cout << "Please enter customer ID: ";
                         cin >> ID;
 
+
                         // check if ID exists
                         foundList = searchID(customerList, ID);
                         while (foundList.size() == 0) {
@@ -334,8 +340,9 @@ int main(int argc, char** argv) {
                             cin >> quantity;
                         }
 
-                        orderID = orderList.size() + 1;
 
+                        transactionID = generateTransactionID(transactionList);
+                        
                         // Code sourced from http://www.cplusplus.com/reference/ctime/strftime/
                         time_t rawtime;
                         struct tm * timeinfo;
@@ -344,22 +351,25 @@ int main(int argc, char** argv) {
                         time(&rawtime);
                         timeinfo = localtime(&rawtime);
 
+
                         strftime(buffer, 80, "%d-%b-%y", timeinfo);
                         date = buffer;
                         // End sourced code
 
-                        quant = s_to_i(quantity);
-                        amountPaid = prices.at(quant - 1);
-
-                        newTransaction = new Transaction(orderID, ID);
+                        newTransaction = new Transaction(ID, transactionID);
                         transactionList.push_back(newTransaction);
 
-                        newOrder = new Order(orderID, date, quant, amountPaid);
-                        orderList.push_back(newOrder);
+                        quant = s_to_i(quantity);
+                        amountPaid = prices.at(quant - 1);
+                        orderID = orderList.size() + 1;
 
+                        newOrder = new Order(s_to_i(orderID), date, quant, amountPaid);
+                        orderList.push_back(newOrder);
+                    
                         // Print Sale confirmation
                         cout << "Sold Tribble(s) to customer " << ID << endl;
                         printSaleConfirmation(customerList[foundList[0]]->getFullName(), quant, amountPaid, date);
+
                         break;
 
                     case 2: // Return to main menu

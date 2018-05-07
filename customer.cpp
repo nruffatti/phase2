@@ -9,11 +9,11 @@ using namespace std;
 
 Customer::Customer() {
 	this->ID = "0";
-    this->fname = "no_first_name";
-    this->lname = "no_last_name";
-    this->street = "no_street_address";
-    this->city = "no_city";
-    this->state = "no_state";
+    this->fname = "";
+    this->lname = "";
+    this->street = "";
+    this->city = "";
+    this->state = "";
     this->zip = "no_zip";
 }
 
