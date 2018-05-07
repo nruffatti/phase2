@@ -21,6 +21,6 @@ using namespace std;
 
 extern vector<vector<string>> getCustomerData(string, int);
 extern string generateID(vector<Customer *>&);
-
+extern string generateTransactionID(vector<Transaction *> list);
 #endif /* DATA_H */
 

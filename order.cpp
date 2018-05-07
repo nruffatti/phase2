@@ -7,7 +7,7 @@ Order::Order() {
 	this->amountPaid = 0;
 }
 
-Order::Order(int orderID, string date, int quantity, int amountPaid) {
+Order::Order(int orderID, string date, int quantity, float amountPaid) {
 	this->orderID = orderID;
 	this->date = date;
 	this->quantity = quantity;
@@ -26,7 +26,7 @@ int Order::getQuantity() {
 	return quantity;
 }
 
-int Order::getAmountPaid() {
+float Order::getAmountPaid() {
 	return amountPaid;
 }
 
@@ -35,7 +35,7 @@ string Order::to_string() {
 	line += "Order ID: " + orderID;
 	line += "\nDate Placed: " + date;
 	line += "\nQuantity Ordered: " + quantity;
-	line += "\nAmount Paid: " + amountPaid;
+	line += "\nAmount Paid: " + (int)amountPaid;
 
 	return line;
 }
