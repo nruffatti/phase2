@@ -8,6 +8,7 @@ using namespace std;
 class Transaction {
 	public:
 		Transaction();
+
 		Transaction(string customerID, string orderID);
 
 		string getOrderID();

@@ -6,6 +6,7 @@ Transaction::Transaction() {
 }
 
 Transaction::Transaction(string customerID, string orderID) {
+
 	this->orderID = orderID;
 	this->customerID = customerID;
 }

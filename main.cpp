@@ -1,3 +1,4 @@
+
 /*
  * File:   main.cpp
  * Author: Nathan R, Brandon Youngquist, Hai Le
@@ -9,7 +10,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
-#include <queue>
+#include <deque>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -23,6 +24,35 @@
 #include "transaction.h"
 
 using namespace std;
+
+
+void printSaleConfirmation(string name, int qty, float total, string date) {
+    cout << "\nSale Confirmation" << endl;
+    cout << "Date: \t\t\t" << date <<
+            "\nName: \t\t\t" << name <<
+            "\nQuantity Purchased: \t" << qty <<
+            "\nTotal: \t\t\t$" << total << endl;
+
+}
+
+void printCustomerInfo(string name, string ID, string address) {
+    cout << "\nName: \t" << name
+            << "\nID: \t" << ID
+            << "\nAdr: \t" << address << endl;
+}
+
+void printCustomerOrder(vector<Order *>& orderList, vector<int>& index) {
+    cout << "\nCustomer Order History:" << endl;
+    if (index.size() == 0)
+        cout << "No available records." << endl;
+    else
+        for (int i = 0; i < index.size(); i++) {
+            cout << "=======================" << endl;
+            cout << orderList[index[i] - 1]->to_string() << endl;
+            cout << "=======================" << endl;
+        }
+
+}
 
 void printInvalid() {
     cout << "Not valid input. Try again!" << endl;
@@ -48,12 +78,13 @@ int main(int argc, char** argv) {
 
     //data storage
     vector<Customer *> customerList;
-    queue<string> rainbowQueue;
+    deque<string> rainbowList; // use deque instead of queue to iterate for id
     vector<Order *> orderList;
     vector<Transaction *> transactionList;
     vector<float> prices;
 
     vector<int> foundList; // to store the index of found records with duplicate name
+    vector<int> orderFoundList; // to store order IDs found for a specific customer
     int choice;
     bool exit = false;
 
@@ -110,14 +141,16 @@ int main(int argc, char** argv) {
 
     // translate the data into transaction objects and push into transactionList vector
     for (int i = 0; (unsigned) i < transaction.size(); i++) {
+
         newTransaction = new Transaction(transaction[i][0], transaction[i][1]);
         transactionList.push_back(newTransaction);
     }
 
     //push rainbow data to queue
     for (int i = 0; (unsigned) i < rainbow.size(); i++) {
-        rainbowQueue.push(rainbow[i][0]);
+        rainbowList.push_back(rainbow[i][0]);
     }
+  
     // to keep the track of # of existing records
     tSize = transactionList.size();
     oSize = orderList.size();
@@ -203,6 +236,9 @@ int main(int argc, char** argv) {
 
                         newCustomer = new Customer(ID, fname, lname, street, city, state, zip);
                         customerList.push_back(newCustomer);
+
+                        cout << "\nAdded new customer " << fname << " " << lname << " with ID " << ID << endl;
+
                         break;
 
                     case 2:
@@ -222,23 +258,37 @@ int main(int argc, char** argv) {
                 //multiple last names
                 if (foundList.size() > 1) {
                     for (int i = 0; (unsigned) i < foundList.size(); i++) {
-                        cout << (i + 1) << ". " << customerList[foundList[i]]->getFname() << " " << customerList[foundList[i]]->getLname() << endl;
+                        cout << (i + 1) << ". " << customerList[foundList[i]]->getFullName() << endl;
                     }
+                    // initial prompt
                     cout << "Enter a number to choose a record: " << endl;
-                    //add error prevention here(not valid input)
                     cin >> choice;
+
+                    // check if input is valid
+                    while (!cin.good() || choice > foundList.size()) {
+                        printInvalid();
+                        // prompt until valid input is entered
+                        cout << "Enter a number to choose a record: " << endl;
+                        cin >> choice;
+                    }
+
+                    // match the choice with index 0
                     choice--;
-                    cout << "\nName: \t" << customerList[foundList[choice]]->getFname() << " "
-                            << customerList[foundList[choice]]->getLname()
-                            << "\nID: \t" << customerList[foundList[choice]]->getID()
-                            << "\nAdr: \t" << customerList[foundList[choice]]->getAddress() << endl;
+                    // print customer name, id, address
+                    printCustomerInfo(customerList[foundList[choice]]->getFullName(),
+                            customerList[foundList[choice]]->getID(),
+                            customerList[foundList[choice]]->getAddress());
                     //print customer orders
+                    orderFoundList = searchOrderID(transactionList, customerList[foundList[choice]]->getID());
+                    printCustomerOrder(orderList, orderFoundList);
                 }//one last name found
                 else if (foundList.size() == 1) {
-                    cout << "\nName: \t" << customerList[foundList[0]]->getFname() << " "
-                            << customerList[foundList[0]]->getLname()
-                            << "\nID: \t" << customerList[foundList[0]]->getID()
-                            << "\nAdr: \t" << customerList[foundList[0]]->getAddress() << endl;
+                    //
+                    printCustomerInfo(customerList[foundList[0]]->getFullName(),
+                            customerList[foundList[0]]->getID(),
+                            customerList[foundList[0]]->getAddress());
+                    orderFoundList = searchOrderID(transactionList, customerList[foundList[0]]->getID());
+                    printCustomerOrder(orderList, orderFoundList);
                     //print customer orders
                 } else
                     cout << "No match was found. Try again!" << endl;
@@ -249,10 +299,11 @@ int main(int argc, char** argv) {
                 cin >> ID;
                 foundList = searchID(customerList, ID);
                 if (foundList.size() == 1) {
-                    cout << "\nName: \t" << customerList[foundList[0]]->getFname() << " "
-                            << customerList[foundList[0]]->getLname()
-                            << "\nID: \t" << customerList[foundList[0]]->getID()
-                            << "\nAdr: \t" << customerList[foundList[0]]->getAddress() << endl;
+                    printCustomerInfo(customerList[foundList[0]]->getFullName(),
+                            customerList[foundList[0]]->getID(),
+                            customerList[foundList[0]]->getAddress());
+                    orderFoundList = searchOrderID(transactionList, customerList[foundList[0]]->getID());
+                    printCustomerOrder(orderList, orderFoundList);
                     //print customer orders
                 } else
                     cout << "No Match was found. Try again!" << endl;
@@ -272,6 +323,16 @@ int main(int argc, char** argv) {
                         cout << "Please enter customer ID: ";
                         cin >> ID;
 
+
+                        // check if ID exists
+                        foundList = searchID(customerList, ID);
+                        while (foundList.size() == 0) {
+                            cout << "\nError! Customer ID was not found!" << endl;
+                            cout << "Please try again: ";
+                            cin >> ID;
+                            foundList = searchID(customerList, ID);
+                        }
+
                         cout << "Please enter quantity (Limit 5): ";
                         cin >> quantity;
                         while (s_to_i(quantity) > 5 || s_to_i(quantity) < 0) {
@@ -279,7 +340,6 @@ int main(int argc, char** argv) {
                             cin >> quantity;
                         }
 
-                        
 
                         transactionID = generateTransactionID(transactionList);
                         
@@ -291,7 +351,9 @@ int main(int argc, char** argv) {
                         time(&rawtime);
                         timeinfo = localtime(&rawtime);
 
-                        date = strftime(buffer, 80, "%d-%m-%y", timeinfo);
+
+                        strftime(buffer, 80, "%d-%b-%y", timeinfo);
+                        date = buffer;
                         // End sourced code
 
                         newTransaction = new Transaction(ID, transactionID);
@@ -303,6 +365,10 @@ int main(int argc, char** argv) {
 
                         newOrder = new Order(s_to_i(orderID), date, quant, amountPaid);
                         orderList.push_back(newOrder);
+                    
+                        // Print Sale confirmation
+                        cout << "Sold Tribble(s) to customer " << ID << endl;
+                        printSaleConfirmation(customerList[foundList[0]]->getFullName(), quant, amountPaid, date);
 
                         break;
 
@@ -327,20 +393,36 @@ int main(int argc, char** argv) {
                     case 1:
                         cout << "Enter customer ID to add to queue: ";
                         cin >> ID;
-                        //check validity of ID
-                        rainbowQueue.push(ID);
+                        //check if id is already on the list
+                        if (checkDupID(rainbowList, ID)) {
+                            cout << "Customer " << ID << " is already on the list"
+                                    << endl;
+                        }// check if it is a valid id
+                        else if (!checkDupID(customerList, ID)) {
+                            cout << "Error! No match was found for ID " + ID << endl;
+                        }// otherwise, add customer to the list
+                        else {
+                            cout << "Added customer " << ID  << "to the list" << endl;
+                            rainbowList.push_back(ID);
+                        }
+
                         break;
                     case 2:
                         //copy - Customer Sale menu
 
                         //temporary output:
-                        if (rainbowQueue.empty()) {
-                            cout << "\nQueue is Empty" << endl;
+                        if (rainbowList.empty()) {
+                            cout << "\nThe waiting list for Rainbow Tribble(S) is empty"
+                                    << endl;
                             break;
                         }
-                        cout << "Selling to customer " << rainbowQueue.front() << endl;
-
-                        rainbowQueue.pop();
+                        cout << "Sold Rainbow Tribble(s) to customer " << rainbowList.front()
+                                << endl;
+                        
+                        //
+                        // foundList = searchID(customerList, rainbowList.front());
+                        // printSaleConfirmation(customerList[foundList[0]]->getFullName(), quant, amountPaid, date);
+                        rainbowList.pop_front();
                         break;
                     default:
                         printInvalid();
@@ -350,10 +432,9 @@ int main(int argc, char** argv) {
 
             case 6: // Exit
                 updateRecordFile(customerList, cSize);
-                //need to check update order & transaction still
                 updateOrders(orderList, oSize);
                 updateTransactions(transactionList, tSize);
-                updateQueue(rainbowQueue);
+                updateDeque(rainbowList);
 
                 exit = true;
                 break;

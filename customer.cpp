@@ -39,6 +39,10 @@ string Customer::getLname() {
     return lname;
 }
 
+string Customer::getFullName() {
+    return fname + " " + lname;
+}
+
 string Customer::getStreet() {
     return street;
 }
