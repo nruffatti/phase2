@@ -19,7 +19,7 @@ using namespace std;
 
 vector<int> searchLastName(vector<Customer *>&, string);
 vector<int> searchID(vector<Customer *>&, string);
-vector<int> searchOrderID(vector<Transaction *>& , string);
+vector<string> searchOrderID(vector<Transaction *>& , string);
 bool checkDupID(vector<Customer *>&, string);
 bool checkDupID(deque<string>&, string);
 void updateRecordFile(vector<Customer *>&, int);

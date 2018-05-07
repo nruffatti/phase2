@@ -2,20 +2,20 @@
 #include <sstream>
 
 Order::Order() {
-    this->orderID = 0;
+    this->orderID = "";
     this->date = "";
     this->quantity = 0;
     this->amountPaid = 0;
 }
 
-Order::Order(int orderID, string date, int quantity, float amountPaid) {
+Order::Order(string orderID, string date, int quantity, float amountPaid) {
     this->orderID = orderID;
     this->date = date;
     this->quantity = quantity;
     this->amountPaid = amountPaid;
 }
 
-int Order::getOrderID() {
+string Order::getOrderID() {
     return orderID;
 }
 

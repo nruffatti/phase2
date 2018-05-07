@@ -8,9 +8,9 @@ using namespace std;
 class Order {
 	public:
 		Order();
-		Order(int orderID, string date, int quantity, float amountPaid);
+		Order(string orderID, string date, int quantity, float amountPaid);
 
-		int getOrderID();
+		string getOrderID();
 		string getDate();
 		int getQuantity();
 		float getAmountPaid();
@@ -18,8 +18,8 @@ class Order {
 		string to_string();
 
 	private:
-		string date;
-		int orderID, quantity;
+		string date, orderID;
+		int quantity;
 		float amountPaid;
 };
 

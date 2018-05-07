@@ -25,6 +25,13 @@
 
 using namespace std;
 
+int s_to_i(string str) {
+    istringstream buffer(str);
+    int num;
+    buffer >> num;
+
+    return num;
+}
 
 void printSaleConfirmation(string name, int qty, float total, string date) {
     cout << "\nSale Confirmation" << endl;
@@ -41,14 +48,14 @@ void printCustomerInfo(string name, string ID, string address) {
             << "\nAdr: \t" << address << endl;
 }
 
-void printCustomerOrder(vector<Order *>& orderList, vector<int>& index) {
+void printCustomerOrder(vector<Order *>& orderList, vector<string>& index) {
     cout << "\nCustomer Order History:" << endl;
     if (index.size() == 0)
         cout << "No available records." << endl;
     else
         for (int i = 0; i < index.size(); i++) {
             cout << "=======================" << endl;
-            cout << orderList[index[i] - 1]->to_string() << endl;
+            cout << orderList[s_to_i(index[i]) - 1]->to_string() << endl;
             cout << "=======================" << endl;
         }
 
@@ -62,13 +69,7 @@ void printInvalid() {
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-int s_to_i(string str) {
-    istringstream buffer(str);
-    int num;
-    buffer >> num;
 
-    return num;
-}
 
 int main(int argc, char** argv) {
     // variables that will be used in multiple places or multiple times
@@ -84,7 +85,7 @@ int main(int argc, char** argv) {
     vector<float> prices;
 
     vector<int> foundList; // to store the index of found records with duplicate name
-    vector<int> orderFoundList; // to store order IDs found for a specific customer
+    vector<string> orderFoundList; // to store order IDs found for a specific customer
     int choice;
     bool exit = false;
 
@@ -135,7 +136,7 @@ int main(int argc, char** argv) {
 
     // translate the data into order objects and push into orderList vector
     for (int i = 0; (unsigned) i < order.size(); i++) {
-        newOrder = new Order(s_to_i(order[i][0]), order[i][1], s_to_i(order[i][2]), s_to_i(order[i][3]));
+        newOrder = new Order(order[i][0], order[i][1], s_to_i(order[i][2]), s_to_i(order[i][3]));
         orderList.push_back(newOrder);
     }
 
@@ -361,9 +362,9 @@ int main(int argc, char** argv) {
 
                         quant = s_to_i(quantity);
                         amountPaid = prices.at(quant - 1);
-                        orderID = orderList.size() + 1;
+                        orderID = transactionID;
 
-                        newOrder = new Order(s_to_i(orderID), date, quant, amountPaid);
+                        newOrder = new Order(orderID, date, quant, amountPaid);
                         orderList.push_back(newOrder);
                     
                         // Print Sale confirmation

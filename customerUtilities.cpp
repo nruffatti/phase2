@@ -6,7 +6,7 @@
  */
 
 #include <queue>
-
+#include "customer.h"
 #include "customerUtilities.h"
 #include "transaction.h"
 #include "order.h"
@@ -37,8 +37,8 @@ vector<int> searchID(vector<Customer *>& searchList, string ID) {
     return foundList;
 }
 
-vector<int> searchOrderID(vector<Transaction *>& searchList, string ID) {
-    vector<int> foundList;
+vector<string> searchOrderID(vector<Transaction *>& searchList, string ID) {
+    vector<string> foundList;
 
     // if match is found, add the order id to the vector
     for (int i = 0; i < searchList.size(); i++) {
