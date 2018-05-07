@@ -1,19 +1,19 @@
 #include "transaction.h"
 
 Transaction::Transaction() {
-	this->orderID = 0;
-	this->customerID = 0;
+	this->orderID = "";
+	this->customerID = "";
 }
 
-Transaction::Transaction(int orderID, int customerID) {
+Transaction::Transaction(string customerID, string orderID) {
 	this->orderID = orderID;
 	this->customerID = customerID;
 }
 
-int Transaction::getOrderID() {
+string Transaction::getOrderID() {
 	return orderID;
 }
 
-int Transaction::getCustomerID() {
+string Transaction::getCustomerID() {
 	return customerID;
 }
