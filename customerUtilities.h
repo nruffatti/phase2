@@ -19,10 +19,13 @@ using namespace std;
 
 vector<int> searchLastName(vector<Customer *>&, string);
 vector<int> searchID(vector<Customer *>&, string);
+vector<int> searchOrderID(vector<Transaction *>& , string);
+bool checkDupID(vector<Customer *>&, string);
+bool checkDupID(deque<string>&, string);
 void updateRecordFile(vector<Customer *>&, int);
 void updateTransactions(vector<Transaction *>&, int);
 void updateOrders(vector<Order *>&, int);
-void updateQueue(queue<string>);
+void updateDeque(deque<string>);
 
 
 #endif /* CUSTOMERUTILITY_H */

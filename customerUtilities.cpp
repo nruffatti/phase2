@@ -37,6 +37,39 @@ vector<int> searchID(vector<Customer *>& searchList, string ID) {
     return foundList;
 }
 
+vector<int> searchOrderID(vector<Transaction *>& searchList, string ID) {
+    vector<int> foundList;
+
+    // if match is found, add the order id to the vector
+    for (int i = 0; i < searchList.size(); i++) {
+        if (searchList[i]->getCustomerID() == ID)
+            foundList.push_back(searchList[i]->getOrderID());
+    }
+
+    return foundList;
+}
+
+bool checkDupID(vector<Customer *>& searchList, string ID) {
+    bool duplicate = false;
+
+    for (int i = 0; i < searchList.size() && !duplicate; i++) {
+        if (searchList[i]->getID() == ID)
+            duplicate = true;
+    }
+    
+    return duplicate;
+}
+
+// overloaded method for rainbow waiting list
+bool checkDupID(deque<string>& rainbowList, string ID) {
+    bool duplicate = false;
+    
+    for (int i = 0; i < rainbowList.size() && !duplicate; i++)
+        if (rainbowList[i] == ID)
+            duplicate = true;
+    return duplicate;
+}
+
 /*
 //overload
 vector<int> searchID(vector<Transaction *>& searchList, string ID) {
@@ -56,15 +89,15 @@ void updateRecordFile(vector<Customer *>& list, int size) {
     ofstream outfile;
 
     outfile.open("customers.txt", ios_base::app);
-    
+
     // append only newly added records
     for (int i = size; i < list.size(); i++) {
         outfile << list[i]->getID() << ";"
                 << list[i]->getFname() << ";"
                 << list[i]->getLname() << ";"
                 << list[i]->getStreet() << ";"
-                << list[i]->getCity() << ";" 
-                << list[i]->getState() << ";" 
+                << list[i]->getCity() << ";"
+                << list[i]->getState() << ";"
                 << list[i]->getZip() << endl;
     }
     outfile.close();
@@ -74,7 +107,7 @@ void updateTransactions(vector<Transaction *>& list, int size) {
     ofstream outfile;
 
     outfile.open("transactions.txt", ios_base::app);
-    
+
     // append only newly added records
     for (int i = size; i < list.size(); i++) {
         outfile << list[i]->getCustomerID() << ";"
@@ -87,7 +120,7 @@ void updateOrders(vector<Order *>& list, int size) {
     ofstream outfile;
 
     outfile.open("orders.txt", ios_base::app);
-    
+
     // append only newly added records
     for (int i = size; i < list.size(); i++) {
         outfile << list[i]->getOrderID() << ";"
@@ -98,15 +131,15 @@ void updateOrders(vector<Order *>& list, int size) {
     outfile.close();
 }
 
-void updateQueue(queue<string> list) {
+void updateDeque(deque<string> list) {
     ofstream outfile;
 
     outfile.open("rainbowList.txt", ios_base::trunc);
-    
+
     // rewrite entire queue to file
     while (!list.empty()) {
         outfile << list.front() << endl;
-        list.pop();
+        list.pop_front();
     }
     outfile.close();
 }
