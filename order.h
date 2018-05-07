@@ -13,7 +13,7 @@ class Order {
 		int getOrderID();
 		string getDate();
 		int getQuantity();
-		int getAmountPaid();
+		float getAmountPaid();
 
 		string to_string();
 

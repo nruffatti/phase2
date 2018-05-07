@@ -26,7 +26,7 @@ int Order::getQuantity() {
 	return quantity;
 }
 
-int Order::getAmountPaid() {
+float Order::getAmountPaid() {
 	return amountPaid;
 }
 
