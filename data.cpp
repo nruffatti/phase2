@@ -6,7 +6,6 @@
  */
 #include <cstdlib>
 #include <iostream>
-#include <iomanip>
 #include <fstream>
 #include <string>
 #include <string.h>
@@ -66,7 +65,7 @@ string generateID(vector<Customer *>& customerList) {
         x = rand() % 1000000;
         ss << x;
         r = ss.str();
-        if (searchID(customerList, r).size() < 1) {
+        if (!checkDupID(customerList, r)) {
             unique = true;
         }
     }
@@ -101,6 +100,9 @@ string generateTransactionID(vector<Transaction *> list) {
     return ID;
 }
 
+
+// use iomanip and stream << fixed << setprecision(2) instead
+/*
 string amountToString(float n)
 {
     int cts;
@@ -127,3 +129,4 @@ string amountToString(float n)
     
     return dollars;
 }
+ */

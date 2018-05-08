@@ -5,11 +5,10 @@
  * Created on April 22, 2018, 2:24 PM
  */
 
-#include <queue>
-
+#include <time.h>
+#include <iomanip>
 #include "customer.h"
 #include "customerUtilities.h"
-#include "data.h"
 #include "transaction.h"
 #include "order.h"
 
@@ -58,20 +57,53 @@ bool checkDupID(vector<Customer *>& searchList, string ID) {
         if (searchList[i]->getID() == ID)
             duplicate = true;
     }
-    
+
     return duplicate;
 }
 
 // overloaded method for rainbow waiting list
+
 bool checkDupID(deque<string>& rainbowList, string ID) {
     bool duplicate = false;
-    
+
     for (int i = 0; i < rainbowList.size() && !duplicate; i++)
         if (rainbowList[i] == ID)
             duplicate = true;
     return duplicate;
 }
 
+string generateTimeStamp() {
+    string date;
+    // Code sourced from http://www.cplusplus.com/reference/ctime/strftime/
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer [80];
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+
+    strftime(buffer, 80, "%d-%b-%y", timeinfo);
+    date = buffer;
+    // End sourced code
+    
+    return date;
+}
+
+/*
+//overload
+vector<int> searchID(vector<Transaction *>& searchList, string ID) {
+    vector<int> foundList;
+
+    // if match is found, add the index of that record to the vector
+    for (int i = 0; i < searchList.size(); i++) {
+        if (searchList[i]-> == ID)
+            foundList.push_back(i);
+    }
+
+    return foundList;
+}
+ * */
 
 void updateRecordFile(vector<Customer *>& list, int size) {
     ofstream outfile;
@@ -114,7 +146,7 @@ void updateOrders(vector<Order *>& list, int size) {
         outfile << list[i]->getOrderID() << ";"
                 << list[i]->getDate() << ";"
                 << list[i]->getQuantity() << ";"
-                << amountToString(list[i]->getAmountPaid()) << endl;
+                << fixed << setprecision(2) << list[i]->getAmountPaid() << endl;
     }
     outfile.close();
 }
