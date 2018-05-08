@@ -413,12 +413,12 @@ int main(int argc, char** argv) {
                         // create timestamp
                         date = generateTimeStamp();
                         
-                        // Generate a transaction
+                        // Generate new transaction
                         transactionID = generateTransactionID(transactionList);
                         newTransaction = new Transaction(rainbowList.front(), transactionID);
                         transactionList.push_back(newTransaction);
                         
-                        // Generate an order
+                        // Generate new order
                         orderID = transactionID;
                         newOrder = new Order(orderID, date, 1, prices.at(0));
                         orderList.push_back(newOrder);
