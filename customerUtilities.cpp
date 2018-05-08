@@ -6,8 +6,10 @@
  */
 
 #include <queue>
+
 #include "customer.h"
 #include "customerUtilities.h"
+#include "data.h"
 #include "transaction.h"
 #include "order.h"
 
@@ -70,20 +72,6 @@ bool checkDupID(deque<string>& rainbowList, string ID) {
     return duplicate;
 }
 
-/*
-//overload
-vector<int> searchID(vector<Transaction *>& searchList, string ID) {
-    vector<int> foundList;
-
-    // if match is found, add the index of that record to the vector
-    for (int i = 0; i < searchList.size(); i++) {
-        if (searchList[i]-> == ID)
-            foundList.push_back(i);
-    }
-
-    return foundList;
-}
- * */
 
 void updateRecordFile(vector<Customer *>& list, int size) {
     ofstream outfile;
@@ -126,7 +114,7 @@ void updateOrders(vector<Order *>& list, int size) {
         outfile << list[i]->getOrderID() << ";"
                 << list[i]->getDate() << ";"
                 << list[i]->getQuantity() << ";"
-                << list[i]->getAmountPaid() << endl;
+                << amountToString(list[i]->getAmountPaid()) << endl;
     }
     outfile.close();
 }
