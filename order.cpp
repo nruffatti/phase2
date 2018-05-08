@@ -1,5 +1,6 @@
 #include "order.h"
 #include <sstream>
+#include <iomanip>
 
 Order::Order() {
     this->orderID = "";
@@ -37,7 +38,7 @@ string Order::to_string() {
     stream << "Order ID: " << orderID;
     stream << "\nDate Placed: " << date;
     stream << "\nQuantity Ordered: " << quantity;
-    stream << "\nAmount Paid: " << amountPaid;
+    stream << "\nAmount Paid: $" << fixed << setprecision(2) << amountPaid;
 
     line = stream.str();
     return line;
