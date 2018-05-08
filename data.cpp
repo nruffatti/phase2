@@ -6,6 +6,7 @@
  */
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <string.h>
@@ -98,4 +99,31 @@ string generateTransactionID(vector<Transaction *> list) {
     
     ID += r;
     return ID;
+}
+
+string amountToString(float n)
+{
+    int cts;
+    string dollars, cents;
+    
+    int doll = (int)n;
+    stringstream a;
+    a << doll;
+    dollars = a.str(); 
+    
+    
+    cts = (int)(n*100)%100;
+    
+    stringstream d;
+    d << cts;
+    cents = d.str();
+    
+    int size = cents.length();
+    dollars = dollars + "." + cents;
+    for(;size < 2; size++)
+    {
+        dollars += "0";
+    }
+    
+    return dollars;
 }
