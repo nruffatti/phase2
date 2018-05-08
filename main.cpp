@@ -14,7 +14,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <time.h>
+#include <iomanip>
 
 #include "part1.h"
 #include "customer.h"
@@ -35,10 +35,11 @@ int s_to_i(string str) {
 
 void printSaleConfirmation(string name, int qty, float total, string date) {
     cout << "\nSale Confirmation" << endl;
+    cout << "=================" << endl;
     cout << "Date: \t\t\t" << date <<
             "\nName: \t\t\t" << name <<
             "\nQuantity Purchased: \t" << qty <<
-            "\nTotal: \t\t\t$" << total << endl;
+            "\nTotal: \t\t\t$" << fixed << setprecision(2) << total << endl;
 
 }
 
@@ -51,12 +52,12 @@ void printCustomerInfo(string name, string ID, string address) {
 void printCustomerOrder(vector<Order *>& orderList, vector<string>& index) {
     cout << "\nCustomer Order History:" << endl;
     if (index.size() == 0)
-        cout << "No available records." << endl;
+        cout << "No available records";
     else
         for (int i = 0; i < index.size(); i++) {
             cout << "=======================" << endl;
             cout << orderList[s_to_i(index[i]) - 1]->to_string() << endl;
-            cout << "=======================" << endl;
+            cout << "=======================";
         }
 
 }
@@ -68,8 +69,6 @@ void printInvalid() {
     cin.clear();
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
-
-
 
 int main(int argc, char** argv) {
     // variables that will be used in multiple places or multiple times
@@ -151,7 +150,7 @@ int main(int argc, char** argv) {
     for (int i = 0; (unsigned) i < rainbow.size(); i++) {
         rainbowList.push_back(rainbow[i][0]);
     }
-  
+
     // to keep the track of # of existing records
     tSize = transactionList.size();
     oSize = orderList.size();
@@ -341,32 +340,21 @@ int main(int argc, char** argv) {
                             cin >> quantity;
                         }
 
-
+                        /// generate new transaction
                         transactionID = generateTransactionID(transactionList);
-                        
-                        // Code sourced from http://www.cplusplus.com/reference/ctime/strftime/
-                        time_t rawtime;
-                        struct tm * timeinfo;
-                        char buffer [80];
-
-                        time(&rawtime);
-                        timeinfo = localtime(&rawtime);
-
-
-                        strftime(buffer, 80, "%d-%b-%y", timeinfo);
-                        date = buffer;
-                        // End sourced code
-
                         newTransaction = new Transaction(ID, transactionID);
                         transactionList.push_back(newTransaction);
 
                         quant = s_to_i(quantity);
                         amountPaid = prices.at(quant - 1);
                         orderID = transactionID;
+                        // create timestamp
+                        date = generateTimeStamp();
 
+                        // generate new order
                         newOrder = new Order(orderID, date, quant, amountPaid);
                         orderList.push_back(newOrder);
-                    
+
                         // Print Sale confirmation
                         cout << "Sold Tribble(s) to customer " << ID << endl;
                         printSaleConfirmation(customerList[foundList[0]]->getFullName(), quant, amountPaid, date);
@@ -403,7 +391,7 @@ int main(int argc, char** argv) {
                             cout << "Error! No match was found for ID " + ID << endl;
                         }// otherwise, add customer to the list
                         else {
-                            cout << "Added customer " << ID  << "to the list" << endl;
+                            cout << "Added customer " << ID << " to the list" << endl;
                             rainbowList.push_back(ID);
                         }
 
@@ -417,12 +405,26 @@ int main(int argc, char** argv) {
                                     << endl;
                             break;
                         }
-                        cout << "Sold Rainbow Tribble(s) to customer " << rainbowList.front()
+                        cout << "\nSold Rainbow Tribble(s) to customer " << rainbowList.front()
                                 << endl;
                         
-                        //
-                        // foundList = searchID(customerList, rainbowList.front());
-                        // printSaleConfirmation(customerList[foundList[0]]->getFullName(), quant, amountPaid, date);
+                        // find customer record for printing sale confirmation
+                        foundList = searchID(customerList, rainbowList.front());
+                        // create timestamp
+                        date = generateTimeStamp();
+                        
+                        // Generate a transaction
+                        transactionID = generateTransactionID(transactionList);
+                        newTransaction = new Transaction(rainbowList.front(), transactionID);
+                        transactionList.push_back(newTransaction);
+                        
+                        // Generate an order
+                        orderID = transactionID;
+                        newOrder = new Order(orderID, date, 1, prices.at(0));
+                        orderList.push_back(newOrder);
+                        
+                        // print sale confirmation
+                        printSaleConfirmation(customerList[foundList[0]]->getFullName(), 1, prices.at(0), date);
                         rainbowList.pop_front();
                         break;
                     default:
