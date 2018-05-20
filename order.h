@@ -1,7 +1,7 @@
 #ifndef ORDER_H
 #define ORDER_H
 
-#include<string>
+#include <string>
 
 using namespace std;
 
